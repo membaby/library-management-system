@@ -26,6 +26,11 @@ jobs:
       - name: Install
         run: npm ci
 
+      - name: Prisma generate
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/db?schema=public    
+        run: npx prisma generate
+      
       - name: Lint
         run: npm run lint --if-present
 
@@ -33,9 +38,13 @@ jobs:
         run: npm run typecheck --if-present
 
       - name: Prisma validate
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/db?schema=public    
         run: npx prisma validate
 
       - name: Prisma format check
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/db?schema=public    
         run: npx prisma format --check
 
       - name: Test
