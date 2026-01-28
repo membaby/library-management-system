@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Book {
+  id                Int     @id @default(autoincrement())
+  title             String
+  author            String
+  isbn              String  @unique
+  shelfLocation     String?
+  availableQuantity Int
+
+  updatedAt DateTime @updatedAt
+
+  borrows Borrow[]
+
+  @@index([title])
+  @@index([author])
+}
+
+model Borrower {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  registeredAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  borrows Borrow[]
+}
+
+model Borrow {
+  id         Int @id @default(autoincrement())
+  bookId     Int
+  borrowerId Int
+
+  borrowedAt DateTime  @default(now())
+  dueAt      DateTime
+  returnedAt DateTime?
+
+  updatedAt DateTime @updatedAt
+
+  book     Book     @relation(fields: [bookId], references: [id], onDelete: Restrict)
+  borrower Borrower @relation(fields: [borrowerId], references: [id], onDelete: Restrict)
+
+  @@index([borrowerId, returnedAt])
+  @@index([dueAt, returnedAt])
+  @@index([bookId])
+}
