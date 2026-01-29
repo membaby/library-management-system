@@ -10,13 +10,10 @@ A simple RESTful backend API for managing books and borrow records in a library 
 
 ## Tech Stack
 
-- **Runtime:** Node.js
-- **Framework:** Express
+- **Runtime:** Node.js (Express)
 - **Language:** TypeScript
 - **ORM:** Prisma
 - **Database:** PostgreSQL
-- **Auth:** JWT
-- **Testing:** Jest, Supertest
 - **Containerization:** Docker
 
 ## API Endpoints
