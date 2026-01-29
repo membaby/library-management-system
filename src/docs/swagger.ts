@@ -20,6 +20,11 @@ export const swaggerSpec = swaggerJsdoc({
     //     },
     //   },
     },
+    tags: [
+      { name: "Books", description: "Book management" },
+      { name: "Borrows", description: "Borrow & return operations" },
+      { name: "Borrowers", description: "Borrower management" },
+    ],  
     security: [{ bearerAuth: [] }],
   },
   apis: ["./src/**/*.ts"]

@@ -5,6 +5,7 @@ import { swaggerSpec } from "./docs/swagger";
 
 import booksRoutes from "./modules/books/books.routes";
 import borrowersRoutes from "./modules/borrowers/borrowers.routes";
+import borrowsRoutes from "./modules/borrows/borrows.routes";
 
 
 export function createApp() {
@@ -19,10 +20,10 @@ export function createApp() {
     res.send(swaggerSpec);
   });
   
-
   // Modules routes
   app.use("/books", booksRoutes);
   app.use("/borrowers", borrowersRoutes);
+  app.use("/borrows", borrowsRoutes);
 
   // Error handling
   app.use((_req: Request, res: Response) => {
