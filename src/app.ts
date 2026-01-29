@@ -9,7 +9,7 @@ import borrowsRoutes from "./modules/borrows/borrows.routes";
 import reportsRoutes from "./modules/reports/reports.routes";
 
 import { reportsRateLimit } from "./middlewares/rateLimit";
-
+import { isJsonParseError } from "./utils";
 
 
 export function createApp() {
@@ -36,6 +36,15 @@ export function createApp() {
   });
 
   app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+    // JSON parsing error
+    if (isJsonParseError(err) && err.type === "entity.parse.failed" && err.status === 400) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid JSON in request body"
+      });
+    }
+  
+  
     // Zod validation error
     if (err instanceof ZodError) {
       return res.status(400).json({
