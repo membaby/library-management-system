@@ -22,5 +22,16 @@
  *           nullable: true
  *         availableQuantity:
  *           type: integer
+ * 
+ *     Borrower:
+ *       type: object
+ *       example:
+ *         name: "Mahmoud Embaby"
+ *         email: "mah.embaby@outlook.com"
+ *       properties:
+ *         name:
+ *           type: string
+ *         email:
+ *           type: string
  */
 export {};
