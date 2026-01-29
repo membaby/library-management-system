@@ -22,8 +22,6 @@ const controller = new BooksController();
  *     responses:
  *       200:
  *         description: Book created successfully
- *       400:
- *         description: Invalid request body
  *       409:
  *         description: Book already exists
  */

@@ -6,15 +6,15 @@ const controller = new ReportsController();
 
 /**
  * @openapi
- * /reports/analyze-borrows:
+ * /reports/borrows/summary:
  *   get:
  *     tags:
  *       - Reports
- *     summary: Analyze borrows
- *     description: Analyzes borrows from the library.
+ *     summary: Summary of borrows
+ *     description: Summary of borrows from the library.
  *     responses:
  *       200:
- *         description: Borrows analyzed successfully
+ *         description: Borrows summarized successfully
  *     parameters:
  *       - in: query
  *         name: startDate
@@ -31,7 +31,7 @@ router.get("/borrows/analysis", controller.analyzeBorrows.bind(controller));
 
 /**
  * @openapi
- * /reports/overdue-borrows:
+ * /reports/borrows/overdue:
  *   get:
  *     tags:
  *       - Reports
