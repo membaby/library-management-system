@@ -22,8 +22,8 @@ export const swaggerSpec = swaggerJsdoc({
     },
     tags: [
       { name: "Books", description: "Book management" },
-      { name: "Borrows", description: "Borrow & return operations" },
       { name: "Borrowers", description: "Borrower management" },
+      { name: "Borrows", description: "Borrow & return operations" },
     ],  
     security: [{ bearerAuth: [] }],
   },

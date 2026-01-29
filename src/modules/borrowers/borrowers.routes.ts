@@ -9,6 +9,8 @@ const controller = new BorrowersController();
  * @openapi
  * /borrowers:
  *   post:
+ *     tags:
+ *       - Borrowers
  *     summary: Create a new borrower
  *     description: Adds a new borrower to the system.
  *     requestBody:
@@ -29,6 +31,8 @@ router.post("/", controller.createBorrower.bind(controller));
  * @openapi
  * /borrowers/{id}:
  *   put:
+ *     tags:
+ *       - Borrowers
  *     summary: Update a borrower by ID
  *     description: Updates a borrower's details.
  *     parameters:
@@ -53,6 +57,8 @@ router.put("/:id", controller.updateBorrower.bind(controller));
  * @openapi
  * /borrowers/{id}:
  *   delete:
+ *     tags:
+ *       - Borrowers
  *     summary: Delete a borrower by ID
  *     description: Removes a borrower from the system.
  *     parameters:
@@ -75,6 +81,8 @@ router.delete("/:id", controller.deleteBorrower.bind(controller));
  * @openapi
  * /borrowers:
  *   get:
+ *     tags:
+ *       - Borrowers
  *     summary: List or search borrowers
  *     description: Returns all borrowers, or filters by id/name/email when query params are provided.
  *     parameters:

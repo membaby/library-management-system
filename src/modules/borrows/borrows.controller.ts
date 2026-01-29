@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { BorrowsService } from "./borrows.service";
-import { createBorrowsSchema, idParamSchema, getBorrowsQuerySchema } from "./borrows.schemas";
-
+import { createBorrowsSchema, getBorrowsQuerySchema } from "./borrows.schemas";
+import { idParamSchema, paginationQuerySchema } from "../common/common.schemas";
 
 const service = new BorrowsService();
 
@@ -26,7 +26,8 @@ export class BorrowsController {
     }
 
     async getBorrows(req: Request, res: Response) {
-        const { limit, offset, borrowerId, bookId, dueAt, active, overdue } = getBorrowsQuerySchema.parse(req.query);
+        const { limit, offset } = paginationQuerySchema.parse(req.query);
+        const { borrowerId, bookId, dueAt, active, overdue } = getBorrowsQuerySchema.parse(req.query);
         const borrows = await service.getBorrows(limit, offset, borrowerId, bookId, dueAt, active, overdue);
         res.status(200).json({
             status: "success",

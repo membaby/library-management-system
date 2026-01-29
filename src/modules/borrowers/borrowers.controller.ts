@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { BorrowersService } from "./borrowers.service";
-import { createBorrowerSchema, updateBorrowerSchema, idParamSchema } from "./borrowers.schemas";
+import { createBorrowerSchema, updateBorrowerSchema } from "./borrowers.schemas";
+import { idParamSchema, paginationQuerySchema } from "../common/common.schemas";
 
 
 const service = new BorrowersService();
@@ -36,8 +37,7 @@ export class BorrowersController {
     }
 
     async getBorrowers(req: Request, res: Response) {
-        const limit = Number(req.query.limit) || 10;
-        const offset = Number(req.query.offset) || 0;
+        const { limit, offset } = paginationQuerySchema.parse(req.query);
         const name = req.query.name as string;
         const email = req.query.email as string;
         const result = idParamSchema.safeParse(req.query);

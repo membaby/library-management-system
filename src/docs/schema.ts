@@ -33,5 +33,21 @@
  *           type: string
  *         email:
  *           type: string
+ * 
+ *     CreateBorrow:
+ *       type: object
+ *       example:
+ *         bookId: 1
+ *         borrowerId: 1
+ *         dueAt: "2026-01-29T10:00:00.000Z"
+ *       properties:
+ *         bookId:
+ *           type: integer
+ *         borrowerId:
+ *           type: integer
+ *         dueAt:
+ *           type: string
+ *           format: date-time
+ * 
  */
 export {};

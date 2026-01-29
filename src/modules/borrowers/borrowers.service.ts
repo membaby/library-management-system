@@ -20,9 +20,10 @@ export class BorrowersService {
         if (!data.name && !data.email)
             throw Object.assign(new Error("At least one field to update is required"), { statusCode: 400 });
         try {
+            const { id, ...updateData } = data;
             return await prisma.borrower.update({
-                where: { id: data.id },
-                data: {...data},
+                where: { id: id },
+                data: {...updateData},
             });
         } catch (error: any) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -38,31 +39,35 @@ export class BorrowersService {
     }
 
     async deleteBorrower(id: number) {
-        try {
-            // Assumption: We allow deletion only if the borrower has no active books borrowed
-            const activeBooks = await prisma.borrow.findMany({
-                where: {
-                    borrowerId: id,
-                    returnedAt: null,
-                },
+        return await prisma.$transaction(async (tx) => {
+            // Step 1. Check if borrower exists
+            const borrower = await tx.borrower.findUnique({
+                where: { id },
+                select: { id: true },
             });
-            if (activeBooks.length > 0)
-                throw Object.assign(new Error("Borrower has active books borrowed"), { statusCode: 409 });
-            else {
-                // Delete history of books borrowed by the borrower
-                await prisma.borrow.deleteMany({
-                    where: { borrowerId: id },
-                });
-                // Delete the borrower
-                return await prisma.borrower.delete({
-                    where: { id: id },
-                });
+            if (!borrower) {
+                throw Object.assign(new Error("Borrower with this ID not found"), { statusCode: 404 });
             }
-        } catch (error: any) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025")
-                throw Object.assign(new Error("Borrower not found"), { statusCode: 404 });
-            throw error;
-        }
+      
+            // Step 2. Check active borrows
+            const activeCount = await tx.borrow.count({
+                where: { borrowerId: id, returnedAt: { equals: null } },
+            });
+      
+            if (activeCount > 0) {
+                throw Object.assign(new Error("Borrower has active books borrowed"), { statusCode: 409 });
+            }
+      
+            // Step 3. Delete borrow history
+            await tx.borrow.deleteMany({
+                where: { borrowerId: id },
+            });
+      
+            // Step 4. Delete borrower
+            return await tx.borrower.delete({
+                where: { id: id },
+            });
+        });      
     }
 
     async getBorrowers(limit: number, offset: number, id?: number, name?: string, email?: string) {
