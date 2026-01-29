@@ -11,19 +11,11 @@ export const swaggerSpec = swaggerJsdoc({
     servers: [
       { url: "http://localhost:3000" }
     ],
-    components: {
-    //   securitySchemes: {
-    //     bearerAuth: {
-    //       type: "http",
-    //       scheme: "bearer",
-    //       bearerFormat: "JWT",
-    //     },
-    //   },
-    },
     tags: [
       { name: "Books", description: "Book management" },
       { name: "Borrowers", description: "Borrower management" },
       { name: "Borrows", description: "Borrow & return operations" },
+      { name: "Reports", description: "Reports operatons" },
     ],  
     security: [{ bearerAuth: [] }],
   },
