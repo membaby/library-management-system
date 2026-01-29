@@ -42,6 +42,7 @@ model Borrow {
   dueAt      DateTime
   returnedAt DateTime?
 
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   book     Book     @relation(fields: [bookId], references: [id], onDelete: Restrict)
