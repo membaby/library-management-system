@@ -1,9 +1,10 @@
 import express, { Request, Response, NextFunction } from "express";
-import booksRoutes from "./modules/books/books.routes";
 import { ZodError } from "zod";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./docs/swagger";
 
+import booksRoutes from "./modules/books/books.routes";
+import borrowersRoutes from "./modules/borrowers/borrowers.routes";
 
 
 export function createApp() {
@@ -13,9 +14,15 @@ export function createApp() {
 
   // Swagger UI
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.get("/api-docs.json", (_req, res) => {
+    res.setHeader("Content-Type", "application/json");
+    res.send(swaggerSpec);
+  });
+  
 
   // Modules routes
   app.use("/books", booksRoutes);
+  app.use("/borrowers", borrowersRoutes);
 
   // Error handling
   app.use((_req: Request, res: Response) => {
