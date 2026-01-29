@@ -8,6 +8,9 @@ import borrowersRoutes from "./modules/borrowers/borrowers.routes";
 import borrowsRoutes from "./modules/borrows/borrows.routes";
 import reportsRoutes from "./modules/reports/reports.routes";
 
+import { reportsRateLimit } from "./middlewares/rateLimit";
+
+
 
 export function createApp() {
   const app = express();
@@ -25,7 +28,7 @@ export function createApp() {
   app.use("/books", booksRoutes);
   app.use("/borrowers", borrowersRoutes);
   app.use("/borrows", borrowsRoutes);
-  app.use("/reports", reportsRoutes);
+  app.use("/reports", reportsRateLimit, reportsRoutes);
 
   // Error handling
   app.use((_req: Request, res: Response) => {
